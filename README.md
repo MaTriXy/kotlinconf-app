@@ -10,60 +10,48 @@ Yes, Kotlin is powering all parts of the story. Did I already say that? Okay, le
 ### Server
 
 KotlinConf App is connecting to the server running in the cloud to get information about sessions,
-speakers, favorites and votes. It is developed using [Ktor](http://ktor.io), an asynchronous Kotlin web framework.
+speakers, favorites and votes. It is developed using [Ktor](https://ktor.io), an asynchronous Kotlin web framework.
 
 The server polls [Sessionize](https://sessionize.com) service, which is used for planning the conference. 
-Once in a while it connects to APIs to get latest information about sessions, speakers, and timeline. 
+Once in a while, it connects to APIs to get the latest information about sessions, speakers, and timeline. 
 It then augments and republishes this information for clients to consume. 
-It also provides couple of extra APIs to save your favorites and accumulate votes.
+It also provides a couple of extra APIs to save your favorites and accumulate votes.
 
-### Web Page
+### iOS, Android, Browser and Desktop Applications
 
-During the KotlinConf keynote we showed a web page connected to the same server, displaying live
-information about the voting process. This page is developed using [Kotlin/JS and React framework](https://github.com/jetbrains/create-react-kotlin-app). It connects to
-the server using a WebSocket and receives updates on votes for the given session. 
-
-### Android Application
-
-As you can imagine, the Android version is developed in Kotlin/JVM. What's interesting here is that this time
-application utilizes Multiplatform support, which is an experimental feature in Kotlin 1.2. Data structures for 
-retrieving data from the backend server and some date-time operations are shared across multiple projects.
-
-### iOS Application
-
-The best part is that the iOS version is developed in Kotlin/Native. While still at an early stage in supporting iOS 
-platform natively with Kotlin, it is already a fully functional, connected application, interoperating with iOS 
-native frameworks, and otherwise indistinguishable from Objective C or Swift application. While there are still
-rough edges and no multiplatform support ready for this kind of application, it's already showing the huge potential
-in enabling development of native applications for all platforms.
+All applications are developed within a single codebase using [Kotlin Multiplatform technology](https://kotlinlang.org/docs/multiplatform.html).
+The UI is implemented using [Compose Multiplatform UI framework](https://www.jetbrains.com/lp/compose-multiplatform/).
 
 ## How to build and run
 
-### Building the code
-
- * Make sure you have the Android SDK installed
- * Open the project in IntelliJ IDEA (2017.3 EAP recommended)
- * Create a file `local.properties` in the root directory of the project, pointing to your Android SDK installation. On Mac OS,
-the contents should be `sdk.dir=/Users/<your username>/Library/Android/sdk`. On other OSes, please adjust accordingly.
- * Run `./gradlew build`
-
-### Running the backend
+### Prerequisites
  
- * Run `./gradlew backend:run` from the command line or from Gradle toolwindow
- * The backend will start serving on localhost:8080, with data stored in a local H2 database
-
-Or deploy to Heroku with this button:
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+ * JDK >= 17 
+ * Android Studio with Android SDK
+ * XCode with iOS SDK
+ * Create a file `local.properties` in the root directory of the project, pointing to your Android SDK installation. On Mac OS, the contents should be `sdk.dir=/Users/<your username>/Library/Android/sdk`. On other OSes, please adjust accordingly.
 
 ### Running the Android app
 
- * Create a run configuration of type "Android App"
- * Select module "app" in the run configuration settings
- * Run the configuration
- * Select the emulator or connected device, as normal
+1. Open the project in Android Studio or [JetBrains Fleet](https://www.jetbrains.com/fleet/) and wait until the project finishes loading. 
+2. In Android Studio, select the `androidApp` run configuration from the drop-down list within the [toolbar](https://developer.android.com/studio/intro#user-interface).
+3. Click on the [run icon](https://developer.android.com/studio/run/rundebugconfig#running) to start the simulator.
 
-### Running the Web client
+### Running the iOS
 
- * Make sure the backend is running on localhost:8080
- * Run `npm run serve` in the 'web' directory to run webpack development server
+1. Open the project in Android Studio or [JetBrains Fleet](https://www.jetbrains.com/fleet/) and wait until the project finishes loading.
+2. In Android Studio, select the `KotlinConf` run configuration from the drop-down list within the [toolbar](https://developer.android.com/studio/intro#user-interface).
+3. Click on the [run icon](https://developer.android.com/studio/run/rundebugconfig#running) to start the simulator.
+
+### Running the desktop app
+
+* Run `./gradlew :shared:run` to start the desktop application
+### Running the backend
+
+* Run `./gradlew :backend:run` to start the server
+* All API will be available at `http://0.0.0.0:8080`
+
+### Running the browser app
+
+* To run the web app in the browser, run `./gradlew :shared:wasmJsBrowserRun`.
+* Open `http://localhost:8000` in your browser after build to see the app.
